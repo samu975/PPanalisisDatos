@@ -1,0 +1,7 @@
+beautifulsoup4
+matplotlib
+nbconvert
+nbformat
+pandas
+requests
+selenium==4.51.0
