@@ -29,3 +29,9 @@ Para ejecutar las pruebas localmente:
 ```bash
 python -m unittest discover -s tests -v
 ```
+
+## Consulta puntual de la Unidad 3
+
+El flujo `.github/workflows/seguimiento.yml` admite ejecución manual y programa una consulta el 2 de diciembre de 2026 a las 09:00 en Colombia (14:00 UTC). La programación anual queda limitada por una condición de fecha. La extracción usa Chrome y Selenium, comprueba campos, duplicados y una cobertura mínima del 95 % frente al contador de la tienda. Si falla, no guarda ni publica datos. Cada consulta exitosa guarda un CSV fechado en `datos/` y genera `dashboard.html`, que puede abrirse desde el repositorio descargado. Las consultas reflejan precios reales solo en sus respectivas fechas; las ejecuciones programadas pueden retrasarse o fallar. El sitio puede cambiar y sus términos restringen el acceso automatizado.
+
+El flujo guarda el resultado directamente en `main` con la identidad de GitHub Actions. Ese commit del token automático no inicia otros workflows, por lo que el dashboard debe consultarse desde el archivo del repositorio; la publicación de Pages del informe de la Unidad 2 sigue independiente. Una nueva consulta el mismo día reemplaza el CSV de ese día.

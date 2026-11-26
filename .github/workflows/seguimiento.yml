@@ -1,0 +1,37 @@
+name: Consulta y dashboard de portátiles
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 14 2 12 *'
+permissions:
+  contents: write
+concurrency:
+  group: consulta-ktronix
+  cancel-in-progress: false
+jobs:
+  consultar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Comprobar fecha programada
+        if: github.event_name == 'schedule'
+        run: test "$(TZ=America/Bogota date +%F)" = '2026-12-02'
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Consultar y generar dashboard
+        run: PYTHONPATH=. python seguimiento/actualizar.py
+      - name: Guardar datos e informe
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add datos/ dashboard.html
+          if ! git diff --cached --quiet; then
+            git commit -m 'Actualiza consulta de portátiles'
+            git push origin HEAD:main
+          fi
