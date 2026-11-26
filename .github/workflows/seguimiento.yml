@@ -1,6 +1,10 @@
 name: Consulta y dashboard de portátiles
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/seguimiento.yml'
   schedule:
     - cron: '0 14 2 12 *'
 permissions:
